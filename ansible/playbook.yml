@@ -1,0 +1,29 @@
+---
+- name: Setup web server on EC2 (Ubuntu)
+  hosts: webservers
+  become: yes    # Run as root (sudo)
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+
+    - name: Copy Website HTML files
+      ansible.builtin.copy:
+        src: ./html/index.html   # Local folder with HTML files
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Ensure Nginx is started and enabled
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+
