@@ -7,8 +7,8 @@ cd terraform
 echo "🔧 Initializing and applying Terraform..."
 terraform init
 terraform validate
-terraform plan
-terraform apply -auto-approve
+terraform plan -var-file="terraform.tfvars" 
+terraform apply -var-file="terraform.tfvars" -auto-approve
 
 # Step 2: Wait for EC2 provisioning
 echo "⏳ Waiting for EC2 instance to be provisioned..."
